@@ -1,23 +1,38 @@
 import { Container, Content, Logo, SearchBar } from "./style"; 
-
+import { useAuth } from "../../hooks/auth";
+import { USER_ROLE } from "../../utils/roles";
 import { Button } from "../Button";
 
 import logo from "../../assets/Logo.svg";
 import search from "../../assets/Search.svg";
 import receipt from "../../assets/Receipt.svg";
-import signOut from "../../assets/SignOut.svg";
+import signOutL from "../../assets/SignOut.svg";
 
 export function Header() {
   const orders = 0;
+  const { signOut, user } = useAuth();
   
   return(
     <Container>
       <Content>
-        <Logo>
-          <img src={logo} alt="Logo of Food Explorer" />
+        
+        {
+          user.role === USER_ROLE.ADMIN ?
+          <Logo>
+            <img src={logo} alt="Logo of Food Explorer" />
 
-          <h2 className="roboto-500-bold">food explorer</h2>
-        </Logo>
+            <div className="role">
+              <h2 className="roboto-500-bold">food explorer</h2>
+              <span className="roboto-100-regular">admin</span>
+            </div>
+          </Logo> :
+
+          <Logo>
+            <img src={logo} alt="Logo of Food Explorer" />
+
+            <h2 className="roboto-500-bold">food explorer</h2>
+          </Logo>
+        }
 
         <SearchBar>
           <img src={search} alt="Magnify glass" />
@@ -25,11 +40,18 @@ export function Header() {
           <input className="roboto-300-regular" type="text" placeholder="Search for recipes or ingredients"/>
         </SearchBar>
 
-        <div className="button-w">
-          <Button filepath={receipt} text={"Orders (" + orders + ")"}/>
-        </div>
+        {
+          user.role === USER_ROLE.ADMIN ?
+          <div className="button-w">
+            <Button text={"New meal"}/>
+          </div> :
 
-        <img src={signOut} alt="Exit" />
+          <div className="button-w">
+            <Button filepath={receipt} text={"Orders (" + orders + ")"}/>
+          </div>
+        }
+
+        <img src={signOutL} alt="Exit" id="exit" onClick={signOut}/>
       </Content>
     </Container>
   );

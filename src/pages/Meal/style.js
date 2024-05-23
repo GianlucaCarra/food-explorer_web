@@ -1,16 +1,24 @@
 import styled from "styled-components";
 
 export const Container = styled.main`
+  width: 100%;
   height: 100vh;
-  
+
+  display: grid;
+  grid-template-rows: 104px auto 77px;
+  grid-template-areas: 
+  "header"
+  "content"
+  "footer";
   overflow: scroll;
 `;
 
 export const Content = styled.div`
-  width: 100%;
   max-width: 1122px;
 
-  margin: 0 auto;
+  grid-area: content;
+
+  margin: 32px auto 0;
 `;
 
 export const Back = styled.a`
@@ -37,6 +45,8 @@ export const Info = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  gap: 46px;
 
   width: 100%;
 
@@ -70,6 +80,13 @@ export const Info = styled.div`
     gap: 34px;
 
     max-width: 50%;
+  }
+
+  .quant-add-admin {
+    display: flex;
+    gap: 34px;
+
+    max-width: 25%;
   }
 `;
 

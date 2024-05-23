@@ -111,7 +111,8 @@ export const SlideCard = styled.div`
   background-color: ${({ theme }) => theme.COLOR.DARK_200};
   
   img.fav,
-  img.favFill {
+  img.favFill,
+  img.pencil {
     height: 24px;
     width: 24px;
 

@@ -1,4 +1,6 @@
 import { useState, useRef } from "react";
+import { useAuth } from "../../hooks/auth";
+import { USER_ROLE } from "../../utils/roles";
 
 import { Container, SliderSec, SlideCard } from "./style"; 
 
@@ -7,12 +9,14 @@ import { Button } from "../Button";
 
 import heart from "../../assets/Heart.svg";
 import heartFill from "../../assets/HeartFill.svg";
+import pencil from "../../assets/Pencil.svg";
 import caretLeft from "../../assets/CaretLeft.svg";
 import caretRight from "../../assets/CaretRight.svg";
 
 export function Slider({ title, data }) {
   const [hoveredStates, setHoveredStates] = useState({});
   const sliderRef = useRef(null);
+  const { user } = useAuth();
 
   const handleMouseEnter = index => {
     setHoveredStates({ ...hoveredStates, [index]: true });
@@ -56,21 +60,30 @@ export function Slider({ title, data }) {
               return(
                 <SlideCard key={index} >
                   {
+                    user.role === USER_ROLE.ADMIN ?
+                    <img
+                      className="pencil"
+                      src={pencil} 
+                      alt="Wishlist fill" 
+                      onMouseLeave={() => handleMouseLeave(index)}
+                    /> :
+
                     isHovered ? 
-                    (<img 
+                    <img 
                       className="favFill" 
                       src={heartFill} 
                       alt="Wishlist fill" 
                       onMouseLeave={() => handleMouseLeave(index)}
-                    />) :
-                    (<img 
+                    /> :
+
+                    <img 
                       className="fav"   
                       src={heart} 
                       alt="Wishlist" 
                       onMouseEnter={() => handleMouseEnter(index)}
-                    />)
+                    />
                   }
-
+                  
                   <img 
                     className="meal" 
                     src={slide.img} 
@@ -88,12 +101,15 @@ export function Slider({ title, data }) {
                       slide.price.toFixed(2) : 
                       slide.price}`}
                   </span>
+                  
+                  {
+                    user.role === USER_ROLE.USER &&
+                    <div className="buttons">
+                      <ButtonQuant />
 
-                  <div className="buttons">
-                    <ButtonQuant />
-
-                    <Button text="add" />
-                  </div>
+                      <Button text="add" />
+                    </div>
+                  }
                 </SlideCard>
               );
             })

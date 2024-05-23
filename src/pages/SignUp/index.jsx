@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
+import { useAuth } from "../../hooks/auth";
 
 import { Container, Logo, Form, ButtonText } from "./style";
 
 import { Input } from "../../components/Input";
-import { Button } from "../../components/Button";
+import { Button } from "../../components/Button"; 
 
 import logo from "../../assets/Logo.svg";
 
@@ -15,6 +16,12 @@ export function SignUp() {
   const validateForm = () => {
     setIsFormValid(email && password && email.match(/[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}/) && password.length >= 6);
   };
+
+  const { signIn } = useAuth();
+
+  const handleLogin = () => {
+    signIn({ email, password });
+  }
 
   useEffect(() => {
     validateForm();
@@ -49,7 +56,7 @@ export function SignUp() {
           onChange={e => setPassword(e.target.value)}
         />
 
-        <Button disabled={!isFormValid} type="submit" text="Sign In" onClick={() => console.log({email, password})}/>
+        <Button disabled={!isFormValid} type="submit" text="Sign In" onClick={handleLogin}/>
 
         <ButtonText href="/create-account" className="poppins-100-medium">
           Create an account

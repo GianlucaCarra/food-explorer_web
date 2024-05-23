@@ -5,11 +5,14 @@ export const Container = styled.footer`
   align-items: center;
   justify-content: center;
 
-  position: relative;
+  grid-area: footer;
+
+  /* position: relative;
   bottom: 0;
-  z-index: 3;
+  z-index: 3; */
 
   width: 100%;
+  height: 77px;
 
   padding: 24px;
   margin-top: 54px;

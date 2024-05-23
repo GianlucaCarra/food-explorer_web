@@ -5,11 +5,14 @@ export const Container = styled.header`
   align-items: center;
   justify-content: center;
 
+  grid-area: header;
+
   position: fixed;
   top: 0;
   z-index: 4;
   
   width: 100%;
+  height: 104px;
 
   padding: 28px;
 
@@ -33,6 +36,16 @@ export const Content = styled.div`
   .button-w {
     max-width: 250px;
   }
+
+  #exit {
+    cursor: pointer;
+    transition: .4s;
+
+    &:hover {
+      filter: brightness(0.8);
+      transition: .4s;
+    }
+  }
 `
 
 export const Logo = styled.div`
@@ -45,10 +58,22 @@ export const Logo = styled.div`
     width: 30px;
   }
 
-  > h2 {
+  h2 {
     white-space: nowrap;
     
     color: ${({ theme }) => theme.COLOR.LIGHT_100};
+  }
+
+  span {
+    white-space: nowrap;
+    margin-top: -5px;
+    color: ${({ theme }) => theme.COLOR.CAKE_200};
+  }
+
+  .role {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
   }
 `;
 

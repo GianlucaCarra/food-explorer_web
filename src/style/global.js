@@ -16,6 +16,10 @@ export default createGlobalStyle`
     outline: none;
   }
 
+  #root {
+    height: 100%;
+  }
+
   .poppins-100-medium {
     font-family: "Poppins", sans-serif;
     font-size: 14px;
