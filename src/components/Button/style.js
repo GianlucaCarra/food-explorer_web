@@ -30,7 +30,7 @@ export const Container = styled.button`
   }
 
   &.disabled {
-    filter: brightness(.5);
+    background-color: ${({ theme }) => theme.COLOR.TOMATO_400};
     cursor: not-allowed;
 
     &:hover {

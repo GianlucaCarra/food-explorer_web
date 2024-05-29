@@ -16,6 +16,8 @@ export function Meal() {
   const navigate = useNavigate();
   const { user } = useAuth();
 
+  const price = 0
+  
   return(
     <Container>
       <Header />

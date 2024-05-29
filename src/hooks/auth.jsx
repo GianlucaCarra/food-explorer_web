@@ -19,8 +19,7 @@ function AuthProvider({ children }) {
       setData({ user });
     } catch(error) {
       if(error.response) {
-        console.log(error)
-        alert(error.response);
+        alert(error.message);
       } else {
         alert("E-mail or password incorrect!");
       }

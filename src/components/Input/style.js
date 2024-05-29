@@ -5,14 +5,33 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: start;
   gap: 8px;
+
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+  }
+
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+  }
+
+  input[type=number] {
+      -moz-appearance: textfield;
+      -webkit-appearance: none;
+      appearance: none;
+      margin: 0;
+  }
 `;
 
 export const Label = styled.label`
-  color: ${({ theme }) => theme.COLOR.LIGHT_400}
+  color: ${({ theme }) => theme.COLOR.LIGHT_400};
 `;
 
 export const InputField = styled.input`
-  width: 348px;
+  width: 100%;
 
   padding: 16px 14px;
   border-radius: 8px;
@@ -21,7 +40,7 @@ export const InputField = styled.input`
 
   background-color: ${({ theme }) => theme.COLOR.DARK_900};
 
-  &:placeholder {
+  &::placeholder {
     font-family: "Roboto", sans-serif;
     font-size: 16px;
     line-height: 100%;
