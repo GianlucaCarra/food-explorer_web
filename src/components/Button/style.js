@@ -10,6 +10,8 @@ export const Container = styled.button`
   border-radius: 5px;
 
   width: 100%;
+  height: fit-content;
+  white-space: nowrap;
 
   color: ${({ theme }) => theme.COLOR.LIGHT_100};
   background-color: ${({ theme }) => theme.COLOR.TOMATO_100};
@@ -35,7 +37,7 @@ export const Container = styled.button`
 
     &:hover {
       cursor: not-allowed;
-
+      filter: none;
       transition: none;
     }
   }

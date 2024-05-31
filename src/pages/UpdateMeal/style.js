@@ -170,7 +170,41 @@ export const Section = styled.form`
   }
 
   .buttons {
+    display: flex;
+    gap: 32px;
     align-self: end;
+
+    .delete-meal {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+
+      height: fit-content;
+
+      padding: 12px 32px;
+      border-radius: 5px;
+
+      width: 100%;
+
+      color: ${({ theme }) => theme.COLOR.LIGHT_100};
+      background-color: ${({ theme }) => theme.COLOR.DARK_800};
+
+      transition: .4s;
+
+      img {
+        height: 32px;
+        width: 32px;
+      }
+
+      &:hover {
+        cursor: pointer;
+
+        filter: brightness(.8);
+
+        transition: .4s;
+      }
+    }
   }
 
   .textarea-wrapper {

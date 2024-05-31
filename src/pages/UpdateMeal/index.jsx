@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+
 import { useAuth } from "../../hooks/auth";
+import { api } from "../../services/api";
 
 import { Container, Content, Back, Section, Select, List } from "./style"
 
@@ -13,38 +15,43 @@ import { IngredientItem } from "../../components/IngredientItem";
 import caretLeft from "../../assets/CaretLeft.svg";
 import upload from "../../assets/Upload.svg";
 
-export function NewMeal() {
+export function UpdateMeal() {
   const [name, setName] = useState('');
-  const [type, setType] = useState('meal');
+  const [type, setType] = useState('');
   const [desc, setDesc] = useState('');
   const [price, setPrice] = useState(0);
   const [ingredients, setIngredients] = useState([]);
   const [img, setImg] = useState(null);
-  const [isFormValid, setIsFormValid] = useState(false);
-
   const navigate = useNavigate();
-  const { newMeal } = useAuth();
+  const { id } = useParams();
+  const { updateMeal } = useAuth();
 
-  console.log(isFormValid)
-  const validateForm = () => {
-    setIsFormValid(name && type && desc && price && img && true);
-  };
-
-  const handleImg = (e) => {
-    const file = e.target.files[0];
-
-    setImg(file);
+  const handlePatch = () => {
+    updateMeal({ name, desc, price, type, ingredients, img, id })
   }
 
-  const handleCreate = () => {
-    newMeal({ name, desc, price, type, ingredients, img });
-
-    navigate("/");
-  };
-
   useEffect(() => {
-    validateForm();
-  }, [name, desc, price, type, ingredients, img]);
+    const fetchData = async () => {
+      const response = await api.get(`/meals/${id}`, {
+        withCredentials: true
+      });
+
+      setName(response.data.name);
+      setType(response.data.type);
+      setDesc(response.data.desc);
+      setPrice(response.data.price);
+      setIngredients(response.data.ingredients);
+    }
+
+    fetchData();
+  }, []);
+  
+
+  async function handleDelete() {
+    await api.delete(`/meals/delete/${id}`, {
+      withCredentials: true
+    })
+  }
   
   return(
     <Container>
@@ -54,17 +61,17 @@ export function NewMeal() {
         <Back onClick={() => navigate(-1)} >
           <img src={caretLeft} />
 
-          <span className="poppins-300-bold" >back</span>
+          <span className="poppins-300-bold">back</span>
         </Back>
 
-        <h1 className="poppins-400-medium">Add new meal</h1>
+        <h1 className="poppins-400-medium">Update meal</h1>
 
         <Section>
           <div className="line">
             <div className="upload">
               <span className="roboto-300-regular">Meal image</span>
 
-              <label htmlFor="image" className={!img && "invalid"}>
+              <label htmlFor="image" className={!img ? "invalid" : undefined}>
                 { !img ? <div id="textUp">
                     <img src={upload} alt="" />
 
@@ -80,7 +87,7 @@ export function NewMeal() {
                   id='image' 
                   accept="image/*" 
                   type="file" 
-                  onChange={handleImg}
+                  onChange={e => setImg(e.target.value)}
                 />
               </label>
             </div>
@@ -90,13 +97,7 @@ export function NewMeal() {
                 Name
               </label>
 
-              <input 
-                onChange={e => setName(e.target.value)} 
-                placeholder="e.g.: Ceasar Salad" 
-                id="name" 
-                type="text" 
-                required
-              />
+              <input placeholder={name} id="name" type="text" />
             </div>
 
             <div className="selection">
@@ -105,10 +106,10 @@ export function NewMeal() {
               </label>
 
               <Select 
+                value={type} 
+                onChange={e => setType(e.target.value)} 
                 id="meal-opt" 
                 className="roboto-200-regular"
-                value={type}
-                onChange={e => setType(e.target.value)}
               >
                 <option value="meal" className="roboto-200-regular">Meal</option>
 
@@ -125,54 +126,33 @@ export function NewMeal() {
 
               <List>
                 <IngredientItem value="banana" />
-                <IngredientItem value="banana" />
-                <IngredientItem value="banana" />
-                <IngredientItem value="banana" />
-                <IngredientItem value="banana" />
-                <IngredientItem value="banana" />
-                <IngredientItem value="banana" />
                 <IngredientItem $isnew="true" placeholder="New Item" />
               </List>
             </div>
 
             <div id="price">
-              <Input 
-                label="Price" 
-                type="number" 
-                step="0.01" 
-                placeholder="$ 00.00"
-                onChange={(e => setPrice(e.target.value))}
-                required
-              />
+              <Input label="Price" type="number" step="0.01" placeholder={`$ ${price} `}/>
             </div>
           </div>
 
           <div className="line">
             <div className="textarea-wrapper">
-              <label 
-                htmlFor="desc" 
-                className="roboto-300-regular">
-                  Description
-              </label>
+              <label htmlFor="desc" className="roboto-300-regular">Description</label>
 
               <textarea 
-                placeholder="Briefly talk about the meal, its ingredients, and composition." 
+                placeholder={desc}
                 name="desc" 
                 id="desc" 
                 className=""
-                onChange={e => setDesc(e.target.value)}
-                required
               />
             </div>
           </div>
 
           <div className="line">
             <div className="buttons">
-              <Button 
-                text="Create meal"
-                onClick={handleCreate}
-                disabled={!isFormValid}
-              />
+              <button onClick={handleDelete} className="poppins-100-medium delete-meal">Delete meal</button>
+
+              <Button onClick={handlePatch} type="submit" text="Update meal" />
             </div>
           </div>
         </Section>

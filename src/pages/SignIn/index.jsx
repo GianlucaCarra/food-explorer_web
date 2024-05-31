@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/auth";
 
 import { Container, Logo, Form, ButtonText } from "./style";
 
@@ -12,6 +14,8 @@ export function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isFormValid, setIsFormValid] = useState(false);
+  const { signIn } = useAuth();
+  const navigate = useNavigate();
 
   const validateForm = () => {
     setIsFormValid(
@@ -23,6 +27,12 @@ export function SignIn() {
       password.length >= 6
     );
   };
+
+  const handleCreate = () => {
+    signIn({ name, email, password });
+
+    navigate("/login");
+  }
 
   useEffect(() => {
     validateForm();
@@ -66,7 +76,7 @@ export function SignIn() {
           onChange={e => setPassword(e.target.value)}
         />
 
-        <Button disabled={!isFormValid} type="submit" text="Create acount" />
+        <Button disabled={!isFormValid} onClick={handleCreate} type="submit" text="Create acount" />
 
         <ButtonText href="/login" className="poppins-100-medium">
           I already have an account

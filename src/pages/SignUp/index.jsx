@@ -17,10 +17,10 @@ export function SignUp() {
     setIsFormValid(email && password && email.match(/[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}/) && password.length >= 6);
   };
 
-  const { signIn } = useAuth();
+  const { signUp } = useAuth();
 
   const handleLogin = () => {
-    signIn({ email, password });
+    signUp({ email, password });
   }
 
   useEffect(() => {

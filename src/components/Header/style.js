@@ -48,10 +48,13 @@ export const Content = styled.div`
   }
 `
 
-export const Logo = styled.div`
+export const Logo = styled.button`
   display: flex;
   align-items: center;
   gap: 10px;
+
+  background-color: transparent;
+  cursor: pointer;
 
   > img {
     height: 30px;

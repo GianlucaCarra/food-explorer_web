@@ -14,7 +14,7 @@ import caretLeft from "../../assets/CaretLeft.svg";
 
 export function Meal() {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { role } = useAuth();
 
   const price = 0
   
@@ -55,7 +55,7 @@ export function Meal() {
             </Tags>
 
             {
-              user.role === USER_ROLE.ADMIN ?
+              role === USER_ROLE.ADMIN ?
               <div className="quant-add-admin">
                 <Button text={`Edit meal`} />
               </div> :

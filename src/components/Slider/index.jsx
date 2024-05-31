@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/auth";
 import { USER_ROLE } from "../../utils/roles";
 
@@ -16,7 +17,8 @@ import caretRight from "../../assets/CaretRight.svg";
 export function Slider({ title, data }) {
   const [hoveredStates, setHoveredStates] = useState({});
   const sliderRef = useRef(null);
-  const { user } = useAuth();
+  const { user, role } = useAuth();
+  const navigate = useNavigate();
 
   const handleMouseEnter = index => {
     setHoveredStates({ ...hoveredStates, [index]: true });
@@ -54,17 +56,18 @@ export function Slider({ title, data }) {
 
         <SliderSec ref={sliderRef}>
           {
-            data.map((slide, index) => {
+            data.map(({ id, imageUrl, name, desc, price }, index) => {
               const isHovered = hoveredStates[index];
 
               return(
-                <SlideCard key={index} >
+                <SlideCard key={id} >
                   {
-                    user.role === USER_ROLE.ADMIN ?
+                    role === USER_ROLE.ADMIN ?
                     <img
                       className="pencil"
                       src={pencil} 
                       alt="Wishlist fill" 
+                      onClick={() => navigate(`/update-meal/${id}`)}
                       onMouseLeave={() => handleMouseLeave(index)}
                     /> :
 
@@ -86,24 +89,24 @@ export function Slider({ title, data }) {
                   
                   <img 
                     className="meal" 
-                    src={slide.img} 
-                    alt={`${slide.name} image`} 
+                    src={imageUrl}
+                    alt={`${name} image`} 
                   />
 
-                  <h3 className="poppins-300-bold" >{slide.name + " >"}</h3>
+                  <h3 className="poppins-300-bold" >{name + " >"}</h3>
 
                   <span className="roboto-200-regular desc" >
-                    { slide.desc }
+                    { desc }
                   </span>
 
                   <span className="roboto-600-regular price">
-                    {`$ ${Number.isInteger(slide.price) ? 
-                      slide.price.toFixed(2) : 
-                      slide.price}`}
+                    {`$ ${Number.isInteger(price) ? 
+                      price.toFixed(2) : 
+                      price}`}
                   </span>
                   
                   {
-                    user.role === USER_ROLE.USER &&
+                    role === USER_ROLE.USER &&
                     <div className="buttons">
                       <ButtonQuant />
 

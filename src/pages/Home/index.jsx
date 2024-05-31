@@ -1,56 +1,38 @@
+import { useEffect, useState } from "react";
+import { api } from "../../services/api";
+
 import { Container, Content, Banner } from "./style"
 
 import { Header } from "../../components/Header";
 import { Footer } from "../../components/Footer";
-
-import foodsBanner from "../../assets/FoodsBanner.png";
 import { Slider } from "../../components/Slider";
 
+import foodsBanner from "../../assets/FoodsBanner.png";
+
 export function Home() {
-  const infos = [
-    {
-      img: "https://github.com/gianlucacarra.png",
-      name: "title asfmakdka",
-      desc: "lore ipmpisim dolor",
-      price: 23
-    },
-    {
-      img: "https://github.com/gianlucacarra.png",
-      name: "title asfmakdka",
-      desc: "lore ipmpisim dolor",
-      price: 23
-    },{
-      img: "https://github.com/gianlucacarra.png",
-      name: "title asfmakdka",
-      desc: "lore ipmpisim dolor",
-      price: 23
-    },{
-      img: "https://github.com/gianlucacarra.png",
-      name: "title asfmakdka",
-      desc: "lore ipmpisim dolor",
-      price: 23
-    },{
-      img: "https://github.com/gianlucacarra.png",
-      name: "title asfmakdka",
-      desc: "lore ipmpisim dolor",
-      price: 23
-    },{
-      img: "https://github.com/gianlucacarra.png",
-      name: "title asfmakdka",
-      desc: "lore ipmpisim dolor",
-      price: 23
-    },{
-      img: "https://github.com/gianlucacarra.png",
-      name: "title asfmakdka",
-      desc: "lore ipmpisim dolor",
-      price: 23
-    },{
-      img: "https://github.com/gianlucacarra.png",
-      name: "title asfmakdka",
-      desc: "lore ipmpisim dolor",
-      price: 23
-    },
-  ];
+  const [meals, setMeals] = useState([]);
+  const [desserts, setDesserts] = useState([]);
+  const [drinks, setDrinks] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const indexMeal = await api.get("/meals/indexmeal", {
+        withCredentials: true
+      });
+      const indexDessert = await api.get("/meals/indexdessert", {
+        withCredentials: true
+      });
+      const indexDrink = await api.get("/meals/indexdrink", {
+        withCredentials: true
+      });
+
+      setMeals(indexMeal.data);
+      setDesserts(indexDessert.data);
+      setDrinks(indexDrink.data);
+    }
+
+    fetchData();
+  }, []);
 
   return(
     <Container>
@@ -70,11 +52,11 @@ export function Home() {
         </Banner>
 
         <section className="sliders">
-          <Slider title="test" data={infos} />
+          <Slider title="meals" data={meals} />
 
-          <Slider title="test" data={infos} />
+          <Slider title="desserts" data={desserts} />
 
-          <Slider title="test" data={infos} />
+          <Slider title="drinks" data={drinks} />
         </section>
       </Content>
       

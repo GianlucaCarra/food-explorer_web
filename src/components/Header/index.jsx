@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 import { Container, Content, Logo, SearchBar } from "./style"; 
 import { useAuth } from "../../hooks/auth";
 import { USER_ROLE } from "../../utils/roles";
@@ -10,15 +12,15 @@ import signOutL from "../../assets/SignOut.svg";
 
 export function Header() {
   const orders = 0;
-  const { signOut, user } = useAuth();
+  const { signOut, user, role } = useAuth();
+  const navigate = useNavigate();
   
   return(
     <Container>
       <Content>
-        
         {
-          user.role === USER_ROLE.ADMIN ?
-          <Logo>
+          role === USER_ROLE.ADMIN ?
+          <Logo onClick={() => navigate("/")}>
             <img src={logo} alt="Logo of Food Explorer" />
 
             <div className="role">
@@ -27,7 +29,7 @@ export function Header() {
             </div>
           </Logo> :
 
-          <Logo>
+          <Logo onClick={() => navigate("/")}>
             <img src={logo} alt="Logo of Food Explorer" />
 
             <h2 className="roboto-500-bold">food explorer</h2>
@@ -41,13 +43,13 @@ export function Header() {
         </SearchBar>
 
         {
-          user.role === USER_ROLE.ADMIN ?
+          role === USER_ROLE.ADMIN ?
           <div className="button-w">
-            <Button text={"New meal"}/>
+            <Button onClick={() => navigate("/new-meal")} text={"New meal"}/>
           </div> :
 
           <div className="button-w">
-            <Button filepath={receipt} text={"Orders (" + orders + ")"}/>
+            <Button onClick={() => navigate("/")} filepath={receipt} text={"Orders (" + orders + ")"}/>
           </div>
         }
 

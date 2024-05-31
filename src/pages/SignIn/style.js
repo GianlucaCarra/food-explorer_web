@@ -37,6 +37,8 @@ export const Form = styled.div`
   padding: 64px;
   border-radius: 16px;
 
+  width: 476px;
+
   background-color: ${({ theme }) => theme.COLOR.DARK_700};
 
   > h2 {

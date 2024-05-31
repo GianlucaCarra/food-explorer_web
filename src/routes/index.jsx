@@ -7,9 +7,9 @@ import { AdminRoutes } from "./admin.routes";
 import { UserRoutes } from "./user.routes";
 
 export function Routes() {
-  const { user } = useAuth();
+  const { role, user } = useAuth();
   const AcessRoute = () => {
-    switch(user.role) {
+    switch(role) {
       case USER_ROLE.ADMIN:
         return <AdminRoutes />;
       case USER_ROLE.USER:
