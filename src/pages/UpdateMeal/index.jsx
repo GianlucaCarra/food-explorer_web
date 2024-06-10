@@ -11,6 +11,7 @@ import { Footer } from "../../components/Footer";
 import { Input } from "../../components/Input";
 import { Button } from "../../components/Button";
 import { IngredientItem } from "../../components/IngredientItem";
+import { Loader } from "../../components/Loader";
 
 import caretLeft from "../../assets/CaretLeft.svg";
 import upload from "../../assets/Upload.svg";
@@ -21,44 +22,103 @@ export function UpdateMeal() {
   const [desc, setDesc] = useState('');
   const [price, setPrice] = useState(0);
   const [ingredients, setIngredients] = useState([]);
+  const [newIngredient, setNewIngredient] = useState("");
   const [img, setImg] = useState(null);
+  const [isModified, setIsModified] = useState(false);
+  const [loadig, setLoading] = useState(true);
+  const [loadingPatch, setLoadingPatch] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
   const { updateMeal } = useAuth();
 
-  const handlePatch = () => {
-    updateMeal({ name, desc, price, type, ingredients, img, id })
+  const handleFieldChange = () => {
+    setIsModified(true); 
   }
 
   useEffect(() => {
+    setLoading(true);
+    
     const fetchData = async () => {
       const response = await api.get(`/meals/${id}`, {
         withCredentials: true
       });
-
+      
       setName(response.data.name);
       setType(response.data.type);
       setDesc(response.data.desc);
       setPrice(response.data.price);
-      setIngredients(response.data.ingredients);
-    }
 
-    fetchData();
+      const ingredientNames = response.data.ingredients.map(ingredient => ingredient.name);
+      setIngredients(ingredientNames);
+    }
+    
+    fetchData()
+    .finally(() => {
+      setLoading(false);
+    });
   }, []);
   
+  function handleAddIngredient(e) {
+    e.preventDefault();
 
-  async function handleDelete() {
-    await api.delete(`/meals/delete/${id}`, {
-      withCredentials: true
-    })
+    if(newIngredient === "") {
+      return;
+    }
+
+    if(ingredients.includes(newIngredient)) {
+      return;
+    }
+
+    setIngredients(prevState => [...prevState, newIngredient]);
+    setIsModified(true);
+    setNewIngredient("");
+  }
+
+  function handleRemoveIngredient(event, deleted) {
+    event.preventDefault();
+
+    const deletedList = () => ingredients.filter(ingredient => ingredient != deleted);
+    setIngredients(deletedList());
+    setIsModified(true);
+  }  
+
+  const handlePatch = () => {
+    setLoadingPatch(true);
+
+    updateMeal({ name, desc, price, type, ingredients, img, id })
+      .then(() => {
+        setLoadingPatch(false);
+        setIsModified(false);
+      });
   }
   
+  async function handleDelete() {
+    navigate("/");
+    
+    await api.delete(`/meals/delete/${id}`, {
+      withCredentials: true
+    });
+  }
+  
+  const handleImg = (e) => {
+    const file = e.target.files[0];
+    
+    setImg(file);
+    setIsModified(true); 
+  }
+
+  if(loadig) {
+    return(
+      <Loader />
+    );
+  }
+
   return(
     <Container>
       <Header />
 
       <Content>
-        <Back onClick={() => navigate(-1)} >
+        <Back onClick={() => navigate("/")} >
           <img src={caretLeft} />
 
           <span className="poppins-300-bold">back</span>
@@ -71,7 +131,7 @@ export function UpdateMeal() {
             <div className="upload">
               <span className="roboto-300-regular">Meal image</span>
 
-              <label htmlFor="image" className={!img ? "invalid" : undefined}>
+              <label htmlFor="image">
                 { !img ? <div id="textUp">
                     <img src={upload} alt="" />
 
@@ -87,7 +147,7 @@ export function UpdateMeal() {
                   id='image' 
                   accept="image/*" 
                   type="file" 
-                  onChange={e => setImg(e.target.value)}
+                  onChange={handleImg}
                 />
               </label>
             </div>
@@ -97,7 +157,16 @@ export function UpdateMeal() {
                 Name
               </label>
 
-              <input placeholder={name} id="name" type="text" />
+              <input 
+                onChange={e => { 
+                  setName(e.target.value); 
+                  handleFieldChange();
+                }} 
+                value={name}
+                placeholder="name" 
+                id="name" 
+                type="text" 
+              />
             </div>
 
             <div className="selection">
@@ -107,7 +176,10 @@ export function UpdateMeal() {
 
               <Select 
                 value={type} 
-                onChange={e => setType(e.target.value)} 
+                onChange={e => { 
+                  setType(e.target.value); 
+                  handleFieldChange();
+                }}  
                 id="meal-opt" 
                 className="roboto-200-regular"
               >
@@ -125,13 +197,38 @@ export function UpdateMeal() {
               <span className="poppins-100-medium">Ingredients</span>
 
               <List>
-                <IngredientItem value="banana" />
-                <IngredientItem $isnew="true" placeholder="New Item" />
+                {
+                  ingredients.map((ingredient, index) => (
+                    <IngredientItem 
+                    key={index}
+                    value={ingredient}
+                    onClick={() => handleRemoveIngredient(event, ingredient)}
+                    />
+                  ))
+                }
+                <IngredientItem 
+                  $isnew="true"
+                  placeholder="New Item"
+                  value={newIngredient}
+                  onChange={e => setNewIngredient(e.target.value)}
+                  onClick={handleAddIngredient}
+                />
               </List>
             </div>
 
             <div id="price">
-              <Input label="Price" type="number" step="0.01" placeholder={`$ ${price} `}/>
+              <Input 
+                label="Price" 
+                type="number"
+                id="price"
+                step="0.01" 
+                value={price}
+                placeholder="$ 00.00"
+                onChange={e => { 
+                  setPrice(e.target.value); 
+                  handleFieldChange();
+                }} 
+              />
             </div>
           </div>
 
@@ -140,19 +237,33 @@ export function UpdateMeal() {
               <label htmlFor="desc" className="roboto-300-regular">Description</label>
 
               <textarea 
-                placeholder={desc}
+                placeholder="Briefly talk about the meal, its ingredients, and composition."
                 name="desc" 
                 id="desc" 
-                className=""
+                value={desc}
+                onChange={e => { 
+                  setDesc(e.target.value); 
+                  handleFieldChange();
+                }} 
               />
             </div>
           </div>
 
           <div className="line">
             <div className="buttons">
-              <button onClick={handleDelete} className="poppins-100-medium delete-meal">Delete meal</button>
+              <button 
+                onClick={handleDelete} 
+                className="poppins-100-medium delete-meal"
+              >
+                Delete meal
+              </button>
 
-              <Button onClick={handlePatch} type="submit" text="Update meal" />
+              <Button 
+                disabled={!isModified}
+                onClick={handlePatch} 
+                type="submit" 
+                text={loadingPatch ? "Loading..." : "Update meal"} 
+              />
             </div>
           </div>
         </Section>

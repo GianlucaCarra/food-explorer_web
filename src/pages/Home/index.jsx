@@ -6,6 +6,7 @@ import { Container, Content, Banner } from "./style"
 import { Header } from "../../components/Header";
 import { Footer } from "../../components/Footer";
 import { Slider } from "../../components/Slider";
+import { Loader } from "../../components/Loader";
 
 import foodsBanner from "../../assets/FoodsBanner.png";
 
@@ -13,26 +14,38 @@ export function Home() {
   const [meals, setMeals] = useState([]);
   const [desserts, setDesserts] = useState([]);
   const [drinks, setDrinks] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const indexMeal = await api.get("/meals/indexmeal", {
-        withCredentials: true
-      });
-      const indexDessert = await api.get("/meals/indexdessert", {
-        withCredentials: true
-      });
-      const indexDrink = await api.get("/meals/indexdrink", {
-        withCredentials: true
-      });
+    setLoading(true);
 
-      setMeals(indexMeal.data);
-      setDesserts(indexDessert.data);
-      setDrinks(indexDrink.data);
+    const fetchData = async () => {
+      try {
+        const index = await api.get("/meals/index", {
+          withCredentials: true
+        });
+        const filteredMeals = index.data.filter(item => item.type === "meal");
+        const filteredDesserts = index.data.filter(item => item.type === "dessert");
+        const filteredDrinks = index.data.filter(item => item.type === "drink");
+
+        setMeals(filteredMeals);
+        setDesserts(filteredDesserts);
+        setDrinks(filteredDrinks);
+      } catch (error) {
+        alert(error)
+      } finally {
+        setLoading(false);
+      }
     }
 
     fetchData();
   }, []);
+
+  if(loading) {
+    return(
+      <Loader />
+    )
+  }
 
   return(
     <Container>
@@ -52,11 +65,11 @@ export function Home() {
         </Banner>
 
         <section className="sliders">
-          <Slider title="meals" data={meals} />
+          <Slider title="Meals" data={meals} />
 
-          <Slider title="desserts" data={desserts} />
+          <Slider title="Desserts" data={desserts} />
 
-          <Slider title="drinks" data={drinks} />
+          <Slider title="Drinks" data={drinks} />
         </section>
       </Content>
       

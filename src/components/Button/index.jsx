@@ -1,8 +1,8 @@
 import { Container } from "./style"; 
 
-export function Button({ filepath, text, disabled, ...rest }) {
+export function Button({ filepath, text, disabled, ref, className, ...rest }) {
   return(
-    <Container className={`poppins-100-medium ${disabled ? 'disabled' : ''}`} disabled={disabled} {...rest} >
+    <Container ref={ref} className={`poppins-100-medium ${disabled ? 'disabled' : ''} ${className}`} disabled={disabled} {...rest} >
       {filepath && <img src={filepath} alt="" />}
 
       {text}

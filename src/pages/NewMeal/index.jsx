@@ -19,16 +19,40 @@ export function NewMeal() {
   const [desc, setDesc] = useState('');
   const [price, setPrice] = useState(0);
   const [ingredients, setIngredients] = useState([]);
+  const [newIngredient, setNewIngredient] = useState("");
   const [img, setImg] = useState(null);
   const [isFormValid, setIsFormValid] = useState(false);
+  const [loadingCreate, setLoadingCreate] = useState(false);
 
   const navigate = useNavigate();
   const { newMeal } = useAuth();
 
-  console.log(isFormValid)
   const validateForm = () => {
-    setIsFormValid(name && type && desc && price && img && true);
+    setIsFormValid(name && type && ingredients.length > 0 && desc && price && img && true);
   };
+
+  function handleAddIngredient(e) {
+    e.preventDefault();
+
+    if(newIngredient === "") {
+      return;
+    }
+
+    if(ingredients.includes(newIngredient)) {
+      return;
+    }
+    
+    setIngredients(prevState => [...prevState, newIngredient]);
+    setNewIngredient("");
+  }
+
+  function handleRemoveIngredient(event, deleted) {
+    event.preventDefault();
+
+    setIngredients(prevState => 
+      prevState.filter(ingredient => ingredient != deleted)
+    );
+  }  
 
   const handleImg = (e) => {
     const file = e.target.files[0];
@@ -36,10 +60,10 @@ export function NewMeal() {
     setImg(file);
   }
 
-  const handleCreate = () => {
+  const handleCreate = async () => {
+    setLoadingCreate(true);
     newMeal({ name, desc, price, type, ingredients, img });
-
-    navigate("/");
+    setLoadingCreate(false);
   };
 
   useEffect(() => {
@@ -51,7 +75,7 @@ export function NewMeal() {
       <Header />
 
       <Content>
-        <Back onClick={() => navigate(-1)} >
+        <Back onClick={() => navigate("/")} >
           <img src={caretLeft} />
 
           <span className="poppins-300-bold" >back</span>
@@ -64,7 +88,7 @@ export function NewMeal() {
             <div className="upload">
               <span className="roboto-300-regular">Meal image</span>
 
-              <label htmlFor="image" className={!img && "invalid"}>
+              <label htmlFor="image" className={!img ? "invalid" : ""}>
                 { !img ? <div id="textUp">
                     <img src={upload} alt="" />
 
@@ -123,15 +147,23 @@ export function NewMeal() {
             <div className="ingredients">
               <span className="poppins-100-medium">Ingredients</span>
 
-              <List>
-                <IngredientItem value="banana" />
-                <IngredientItem value="banana" />
-                <IngredientItem value="banana" />
-                <IngredientItem value="banana" />
-                <IngredientItem value="banana" />
-                <IngredientItem value="banana" />
-                <IngredientItem value="banana" />
-                <IngredientItem $isnew="true" placeholder="New Item" />
+              <List className={ingredients.length <= 0 ? "invalid" : null}>
+                {
+                  ingredients.map((ingredient, index) => (
+                    <IngredientItem 
+                    key={String(index)}
+                    value={ingredient}
+                    onClick={() => handleRemoveIngredient(event, ingredient)}
+                    />
+                  ))
+                }
+                <IngredientItem 
+                  $isnew="true"
+                  placeholder="New Item"
+                  value={newIngredient}
+                  onChange={e => setNewIngredient(e.target.value)}
+                  onClick={handleAddIngredient}
+                />
               </List>
             </div>
 
@@ -169,9 +201,10 @@ export function NewMeal() {
           <div className="line">
             <div className="buttons">
               <Button 
-                text="Create meal"
+                text={loadingCreate ? "Loading..." : "Create meal"}
                 onClick={handleCreate}
                 disabled={!isFormValid}
+                className={loadingCreate && "loading"}
               />
             </div>
           </div>

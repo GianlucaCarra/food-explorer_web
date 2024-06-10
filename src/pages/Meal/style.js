@@ -15,6 +15,7 @@ export const Container = styled.main`
 
 export const Content = styled.div`
   max-width: 1122px;
+  width: 100%;
 
   grid-area: content;
 
@@ -44,9 +45,9 @@ export const Back = styled.a`
 export const Info = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: left;
 
-  gap: 46px;
+  gap: 48px;
 
   width: 100%;
 
@@ -65,6 +66,7 @@ export const Info = styled.div`
 
   .meal-infos {
     max-width: 670px;
+    width: 100%;
 
     .text {
       display: flex;

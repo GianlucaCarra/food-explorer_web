@@ -62,7 +62,7 @@ export const Section = styled.form`
   width: 100%;
 
   .invalid {
-    outline: 1px solid ${({ theme }) => theme.COLOR.TOMATO_200};
+    border: 1px solid ${({ theme }) => theme.COLOR.TOMATO_200};
   }
 
   .line {
@@ -171,6 +171,7 @@ export const Section = styled.form`
 
   .buttons {
     align-self: end;
+    width: 150px;
   }
 
   .textarea-wrapper {

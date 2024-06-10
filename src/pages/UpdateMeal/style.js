@@ -173,6 +173,7 @@ export const Section = styled.form`
     display: flex;
     gap: 32px;
     align-self: end;
+    width: 400px;
 
     .delete-meal {
       display: flex;

@@ -48,7 +48,7 @@ export const Container = styled.section`
   .shadow-left {
     position: absolute;
     height: 100%;
-    width: 30%;
+    width: 20%;
 
     pointer-events: none;
 
@@ -62,7 +62,7 @@ export const Container = styled.section`
   .shadow-right {
     position: absolute;
     height: 100%;
-    width: 30%;
+    width: 20%;
 
     pointer-events: none;
 
@@ -137,6 +137,7 @@ export const SlideCard = styled.div`
     text-overflow: ellipsis;
     white-space: nowrap;
     max-width: 100%;
+    cursor: pointer;
 
     text-align: center;
 

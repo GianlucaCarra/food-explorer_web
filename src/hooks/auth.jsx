@@ -1,7 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import Cookies from 'js-cookie';
 import { api } from "../services/api";
-import { jwtDecode } from "jwt-decode";
+import { Loader } from "../components/Loader";
 
 export const AuthContext = createContext({});
 
@@ -16,7 +15,20 @@ function AuthProvider({ children }) {
         { withCredentials: true }
       );
     } catch(error) {
-      if(error) {
+      throw error
+    }
+  }
+
+  async function getRole() {
+    try {
+      const response = await api.get("/sessions/role");
+      setRole(response.data.role);
+    } catch (error) {
+      console.error("Failed to get role:", error);
+      if (error.response) {
+        alert(error.response.data.message);
+      } else {
+        alert(error.message);
       }
     }
   }
@@ -34,18 +46,11 @@ function AuthProvider({ children }) {
       localStorage.setItem("@food-explorer:user", JSON.stringify(user));
 
       setData({ user });
+      await getRole();
     } catch(error) {
-      if(error.response) {
-        alert(error.message);
-      } else {
-        alert(error.message);
-      }
+      
+      throw error
     }
-  }
-
-  async function getRole() {
-    const response = await api.get("/sessions/role");
-    setRole(response.data.role);
   }
 
   function signOut() {
@@ -67,40 +72,39 @@ function AuthProvider({ children }) {
         type: type,
         ingredients: ingredients
       };
-
+  
       formData.append('data', JSON.stringify(jsonData));
       formData.append('img', img);
-
-      await api.post("/meals/create", formData, {
+  
+      const response = await api.post("/meals/create", formData, {
         withCredentials: true
       });
-    } catch(error) {
-      if(error) {
-        alert(error.response.data.message);
-      } else {
-        alert("Is not possible add a new meal");
-      }
+    } catch (error) {
+      throw error;
     }
   }
 
   async function updateMeal({ name, desc, price, type, ingredients, img, id }) {
-    const formData = new FormData();
-    const jsonData = {
-      name: name || null,
-      desc: desc || null,
-      price: price || null,
-      type: type || null,
-      ingredients: ingredients || null
-    };
+    try {
+      const formData = new FormData();
+      const jsonData = {
+        name: name || null,
+        desc: desc || null,
+        price: price || null,
+        type: type || null,
+        ingredients: ingredients || null
+      };
 
-    console.log(img)
+      formData.append('data', JSON.stringify(jsonData));
+      formData.append('img', img);
 
-    formData.append('data', JSON.stringify(jsonData));
-    formData.append('img', img);
-
-    await api.patch(`/meals/update/${id}`, formData, {
-      withCredentials: true
-    });
+      await api.patch(`/meals/update/${id}`, formData, {
+        withCredentials: true
+      });
+    } catch (error) {
+      alert(error)
+      throw error
+    }
   }
 
   useEffect(() => {
@@ -108,9 +112,10 @@ function AuthProvider({ children }) {
 
     if(user) {
       setData({ user: JSON.parse(user) });
+      getRole();
+    } else {
+      signOut();
     }
-
-    getRole();
   }, []);
 
   return (

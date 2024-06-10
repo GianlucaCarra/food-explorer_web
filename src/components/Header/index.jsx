@@ -1,8 +1,13 @@
 import { useNavigate } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
+import debounce from "lodash.debounce";
 
-import { Container, Content, Logo, SearchBar } from "./style"; 
-import { useAuth } from "../../hooks/auth";
+import { api } from "../../services/api";
 import { USER_ROLE } from "../../utils/roles";
+
+import { Container, Content, Logo, SearchBar, Results } from "./style"; 
+import { useAuth } from "../../hooks/auth";
+import { ResultItem } from "../ResultItem";
 import { Button } from "../Button";
 
 import logo from "../../assets/Logo.svg";
@@ -11,9 +16,41 @@ import receipt from "../../assets/Receipt.svg";
 import signOutL from "../../assets/SignOut.svg";
 
 export function Header() {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
   const orders = 0;
-  const { signOut, user, role } = useAuth();
+  const { signOut, role } = useAuth();
   const navigate = useNavigate();
+
+  const debouncedSearch = useCallback(
+    debounce(async (term) => {
+      if (term.length > 0) {
+        try {
+          const response = await api.get(`/meals/search?query=${term}`, {
+            withCredentials: true,
+          });
+          setSearchResults(response.data);
+        } catch (error) {
+          setSearchResults([]);
+          throw error
+        }
+      } else {
+        setSearchResults([]);
+      }
+    }, 300),
+    []
+  );
+
+  useEffect(() => {
+    debouncedSearch(searchTerm);
+    return () => {
+      debouncedSearch.cancel();
+    };
+  }, [searchTerm, debouncedSearch]);
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
   
   return(
     <Container>
@@ -37,9 +74,29 @@ export function Header() {
         }
 
         <SearchBar>
-          <img src={search} alt="Magnify glass" />
+          <div className="search">
+            <img src={search} alt="Magnify glass" />
 
-          <input className="roboto-300-regular" type="text" placeholder="Search for recipes or ingredients"/>
+            <input 
+              id="search" 
+              className={searchResults.length > 0 ? "withResults roboto-300-regular" : "roboto-300-regular"}
+              type="text" 
+              placeholder="Search for recipes or ingredients"
+              autoComplete="off"
+              value={searchTerm}
+              onChange={handleSearchChange}
+            />
+          </div>
+
+          <Results>
+            {
+              searchResults.map(({ imageUrl, name, desc, id }) => {
+                return(
+                  <ResultItem key={id} img={imageUrl} name={name} desc={desc} id={id}/>
+                );
+              })
+            }
+          </Results>
         </SearchBar>
 
         {
@@ -49,7 +106,10 @@ export function Header() {
           </div> :
 
           <div className="button-w">
-            <Button onClick={() => navigate("/")} filepath={receipt} text={"Orders (" + orders + ")"}/>
+            <Button 
+              onClick={() => navigate("/")} 
+              filepath={receipt} 
+              text={"Orders (" + orders + ")"}/>
           </div>
         }
 

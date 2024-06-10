@@ -31,6 +31,11 @@ export const Container = styled.button`
     transition: .4s;
   }
 
+  .loading {
+    filter: brightness(0.8);
+    cursor: not-allowed;
+  }
+
   &.disabled {
     background-color: ${({ theme }) => theme.COLOR.TOMATO_400};
     cursor: not-allowed;

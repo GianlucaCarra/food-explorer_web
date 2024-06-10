@@ -17,7 +17,7 @@ import caretRight from "../../assets/CaretRight.svg";
 export function Slider({ title, data }) {
   const [hoveredStates, setHoveredStates] = useState({});
   const sliderRef = useRef(null);
-  const { user, role } = useAuth();
+  const { role } = useAuth();
   const navigate = useNavigate();
 
   const handleMouseEnter = index => {
@@ -93,7 +93,12 @@ export function Slider({ title, data }) {
                     alt={`${name} image`} 
                   />
 
-                  <h3 className="poppins-300-bold" >{name + " >"}</h3>
+                  <h3 
+                    onClick={() => navigate(`/meal/${id}`)}
+                    className="poppins-300-bold" 
+                  >
+                    {name + " >"}
+                  </h3>
 
                   <span className="roboto-200-regular desc" >
                     { desc }

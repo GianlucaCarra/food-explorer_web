@@ -81,34 +81,61 @@ export const Logo = styled.button`
 `;
 
 export const SearchBar = styled.div`
-  display: flex;
-  align-items: center;
-
   width: 100%;
   max-width: 580px;
 
+  display: flex;
+  flex-direction: column;
+
   position: relative;
 
-  > img {
-    position: absolute;
-
-    height: 24px;
-    width: 24px;
-
-    margin: 10px;
-  }
-
-  > input {
+  .search {
     display: flex;
     align-items: center;
-    justify-content: center;
 
-    padding: 12px 16px 12px 44px;
-    border-radius: 5px;
     width: 100%;
 
-    color: ${({ theme }) => theme.COLOR.LIGHT_200};
+    position: relative;
 
-    background-color: ${({ theme }) => theme.COLOR.DARK_900};
+    > img {
+      position: absolute;
+
+      height: 24px;
+      width: 24px;
+
+      margin: 10px;
+    }
+
+    > input {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 12px 16px 12px 44px;
+      border-radius: 5px;
+      width: 100%;
+
+      color: ${({ theme }) => theme.COLOR.LIGHT_200};
+
+      background-color: ${({ theme }) => theme.COLOR.DARK_900};
+    }
+
+    .withResults {
+      border-radius: 5px 5px 0 0; 
+    }
   }
+`;
+
+export const Results = styled.div`
+  width: 100%;
+  max-height: 400px;
+  height: max-content;
+
+  overflow: scroll;
+  position: absolute;
+  top: 100%;
+
+  border-radius: 0 0 5px 5px;
+
+  background-color: ${({ theme }) => theme.COLOR.DARK_900};
 `;
