@@ -1,7 +1,5 @@
 # Food Explorer
 
-![Food Explorer](https://example.com/path/to/cover-image.jpg)
-
 ## About
 
 Food Explorer is a web application built with React, utilizing technologies such as Git, GitHub, JavaScript, HTML, and CSS with Styled Components. The application includes features for both users and administrators, focusing on managing food items.
@@ -22,19 +20,7 @@ Food Explorer is a web application built with React, utilizing technologies such
 
 ## Usage
 
-You can access Food Explorer directly through its hosted URL [here](https://example.com).
-
-## Contributing
-
-Contributions are welcome! If you'd like to contribute to Food Explorer:
-
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/MyFeature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin feature/MyFeature`)
-5. Open a pull request
-
-Please make sure to update tests as appropriate.
+You can access Food Explorer directly through its hosted URL [here](https://food-explorer-web-ten.vercel.app/).
 
 ## License
 
