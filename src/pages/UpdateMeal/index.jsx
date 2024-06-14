@@ -12,6 +12,7 @@ import { Input } from "../../components/Input";
 import { Button } from "../../components/Button";
 import { IngredientItem } from "../../components/IngredientItem";
 import { Loader } from "../../components/Loader";
+import { SideMenu } from "../../components/SideMenu";
 
 import caretLeft from "../../assets/CaretLeft.svg";
 import upload from "../../assets/Upload.svg";
@@ -27,6 +28,7 @@ export function UpdateMeal() {
   const [isModified, setIsModified] = useState(false);
   const [loadig, setLoading] = useState(true);
   const [loadingPatch, setLoadingPatch] = useState(false);
+  const [menuIsOpen, setMenuIsOpen] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
   const { updateMeal } = useAuth();
@@ -115,7 +117,12 @@ export function UpdateMeal() {
 
   return(
     <Container>
-      <Header />
+      <Header onOpenMenu={() => setMenuIsOpen(true)} />
+
+      <SideMenu 
+        menuIsOpen={menuIsOpen}
+        onCloseMenu={() => setMenuIsOpen(false)}
+      />
 
       <Content>
         <Back onClick={() => navigate("/")} >
@@ -194,7 +201,7 @@ export function UpdateMeal() {
 
           <div className="line">
             <div className="ingredients">
-              <span className="poppins-100-medium">Ingredients</span>
+              <span className="poppins-100-medium ing">Ingredients</span>
 
               <List>
                 {

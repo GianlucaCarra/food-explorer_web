@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { DEVICE_BREAKPOINTS } from "../../style/deviceBreakpoints";
 
 export const Container = styled.section`
   display: flex;
@@ -72,6 +73,26 @@ export const Container = styled.section`
 
     background: linear-gradient(to left, rgba(0,10,15,1), transparent);
   }
+
+  @media (max-width: ${DEVICE_BREAKPOINTS.SM}) {
+    .shadow-right,
+    .shadow-left,
+    #right,
+    #left {
+      display: none;
+    }
+
+    h2 {
+      font-family: "Poppins", sans-serif;
+      font-size: 18px;
+      line-height: 160%;
+      font-weight: 500;
+      letter-spacing: 0%;
+      text-decoration: none;
+    }
+
+    margin-left: 24px;
+  }
 `;
 
 export const SliderSec = styled.div`
@@ -80,15 +101,19 @@ export const SliderSec = styled.div`
 
   width: 100%;
 
-    overflow-x: auto; 
-    overflow-y: hidden; 
-    scroll-behavior: smooth;
-    scrollbar-width: none;
-    -ms-overflow-style: none; 
+  overflow-x: auto; 
+  overflow-y: hidden; 
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none; 
 
-    &::-webkit-scrollbar {
-      display: none;
-    }
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (max-width: ${DEVICE_BREAKPOINTS.SM}) {
+    gap: 16px;
+  }
 `;
 
 export const SlideCard = styled.div`
@@ -123,6 +148,16 @@ export const SlideCard = styled.div`
     transition: .4s;
 
     cursor: pointer;
+  }
+
+  .meal-info {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
   }
 
   img.meal {
@@ -167,5 +202,49 @@ export const SlideCard = styled.div`
     display: flex;
     align-items: center;
     gap: 16px;
+  }
+
+  @media (max-width: ${DEVICE_BREAKPOINTS.SM}) {
+    display: grid;
+    place-items: center;
+    width: 210px;
+    height: 292px;
+
+    gap: 12px;
+    
+    img.meal {
+      width: 88px;
+      height: 88px;
+    }
+
+    h3 {
+      font-family: "Poppins", sans-serif;
+      font-size: 14px;
+      line-height: 24px;
+      font-weight: 500;
+      letter-spacing: 0%;
+      text-decoration: none;
+    }
+
+    span.desc {
+      display: none;
+    }
+
+    span.price {
+      font-family: "Roboto", sans-serif;
+      font-size: 16px;
+      line-height: 100%;
+      font-weight: 400;
+      letter-spacing: 0%;
+      text-decoration: none;
+    }
+
+    .buttons {
+      display: flex;
+      width: 100%;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
   }
 `;

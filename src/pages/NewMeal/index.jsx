@@ -9,6 +9,7 @@ import { Footer } from "../../components/Footer";
 import { Input } from "../../components/Input";
 import { Button } from "../../components/Button";
 import { IngredientItem } from "../../components/IngredientItem";
+import { SideMenu } from "../../components/SideMenu";
 
 import caretLeft from "../../assets/CaretLeft.svg";
 import upload from "../../assets/Upload.svg";
@@ -23,6 +24,7 @@ export function NewMeal() {
   const [img, setImg] = useState(null);
   const [isFormValid, setIsFormValid] = useState(false);
   const [loadingCreate, setLoadingCreate] = useState(false);
+  const [menuIsOpen, setMenuIsOpen] = useState(false);
 
   const navigate = useNavigate();
   const { newMeal } = useAuth();
@@ -72,7 +74,12 @@ export function NewMeal() {
   
   return(
     <Container>
-      <Header />
+      <Header onOpenMenu={() => setMenuIsOpen(true)} />
+
+      <SideMenu 
+        menuIsOpen={menuIsOpen}
+        onCloseMenu={() => setMenuIsOpen(false)}
+      />
 
       <Content>
         <Back onClick={() => navigate("/")} >

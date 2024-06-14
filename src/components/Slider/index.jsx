@@ -87,37 +87,39 @@ export function Slider({ title, data }) {
                     />
                   }
                   
-                  <img 
-                    className="meal" 
-                    src={imageUrl}
-                    alt={`${name} image`} 
-                  />
+                  <div className="meal-info">
+                    <img 
+                      className="meal" 
+                      src={imageUrl}
+                      alt={`${name} image`} 
+                    />
 
-                  <h3 
-                    onClick={() => navigate(`/meal/${id}`)}
-                    className="poppins-300-bold" 
-                  >
-                    {name + " >"}
-                  </h3>
+                    <h3 
+                      onClick={() => navigate(`/meal/${id}`)}
+                      className="poppins-300-bold" 
+                    >
+                      {name + " >"}
+                    </h3>
 
-                  <span className="roboto-200-regular desc" >
-                    { desc }
-                  </span>
+                    <span className="roboto-200-regular desc" >
+                      { desc }
+                    </span>
 
-                  <span className="roboto-600-regular price">
-                    {`$ ${Number.isInteger(price) ? 
-                      price.toFixed(2) : 
-                      price}`}
-                  </span>
-                  
-                  {
-                    role === USER_ROLE.USER &&
-                    <div className="buttons">
-                      <ButtonQuant />
+                    <span className="roboto-600-regular price">
+                      {`$ ${Number.isInteger(price) ? 
+                        price.toFixed(2) : 
+                        price}`}
+                    </span>
+                    
+                    {
+                      role === USER_ROLE.USER &&
+                      <div className="buttons">
+                        <ButtonQuant />
 
-                      <Button text="add" />
-                    </div>
-                  }
+                        <Button text="add" />
+                      </div>
+                    }
+                  </div>
                 </SlideCard>
               );
             })

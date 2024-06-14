@@ -12,12 +12,11 @@ export function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isFormValid, setIsFormValid] = useState(false);
+  const { signUp } = useAuth();
 
   const validateForm = () => {
     setIsFormValid(email && password && email.match(/[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}/) && password.length >= 6);
   };
-
-  const { signUp } = useAuth();
 
   const handleLogin = () => {
     signUp({ email, password });

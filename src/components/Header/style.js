@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { DEVICE_BREAKPOINTS } from "../../style/deviceBreakpoints";
 
 export const Container = styled.header`
   display: flex;
@@ -11,12 +12,18 @@ export const Container = styled.header`
   top: 0;
   z-index: 4;
   
-  width: 100%;
+  width: 100vw;
   height: 104px;
 
   padding: 28px;
 
   background-color: ${({ theme }) => theme.COLOR.DARK_600};
+
+  @media (max-width: ${DEVICE_BREAKPOINTS.SM}) {
+    padding: 56px 28px 24px;
+    max-width: 100vw;
+    justify-content: space-between;
+  }
 `
 
 export const Content = styled.div`
@@ -27,6 +34,10 @@ export const Content = styled.div`
 
   width: 100%;
   max-width: 1122px;
+
+  .menu-mobile {
+    display: none;
+  }
 
   > img {
     height: 32px;
@@ -44,6 +55,35 @@ export const Content = styled.div`
     &:hover {
       filter: brightness(0.8);
       transition: .4s;
+    }
+  }
+
+  .button-mobile {
+      display: none;
+    }
+
+  @media (max-width: ${DEVICE_BREAKPOINTS.SM}) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+
+    width: 100%;
+
+    .menu-mobile {
+      background-color: transparent;
+      display: grid;
+      place-items: center;
+    }
+
+    .button-mobile {
+      display: grid;
+      place-items: center;
+    }
+
+    .button-w,
+    #exit {
+      display: none;
     }
   }
 `
@@ -75,8 +115,39 @@ export const Logo = styled.button`
 
   .role {
     display: flex;
+    width: fit-content;
     flex-direction: column;
     align-items: end;
+  }
+
+  @media (max-width: ${DEVICE_BREAKPOINTS.SM}) {  
+    gap: 8px;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+
+    .role {
+      flex-direction: row;
+      gap: 8px
+    }
+
+    > img {
+      height: 24px;
+      width: 24px;
+    }
+
+    h2 {
+      white-space: nowrap;
+      font-family: "Roboto", sans-serif;
+      font-size: 21px;
+      color: ${({ theme }) => theme.COLOR.LIGHT_100};
+    }
+
+    span {
+      white-space: nowrap;
+      margin-top: -5px;
+      color: ${({ theme }) => theme.COLOR.CAKE_200};
+    }
   }
 `;
 
@@ -123,6 +194,10 @@ export const SearchBar = styled.div`
     .withResults {
       border-radius: 5px 5px 0 0; 
     }
+  }
+
+  @media (max-width: ${DEVICE_BREAKPOINTS.SM}) {
+    display: none;
   }
 `;
 

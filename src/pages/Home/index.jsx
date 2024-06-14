@@ -7,6 +7,7 @@ import { Header } from "../../components/Header";
 import { Footer } from "../../components/Footer";
 import { Slider } from "../../components/Slider";
 import { Loader } from "../../components/Loader";
+import { SideMenu } from "../../components/SideMenu";
 
 import foodsBanner from "../../assets/FoodsBanner.png";
 
@@ -15,6 +16,7 @@ export function Home() {
   const [desserts, setDesserts] = useState([]);
   const [drinks, setDrinks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [menuIsOpen, setMenuIsOpen] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -49,7 +51,12 @@ export function Home() {
 
   return(
     <Container>
-      <Header />
+      <Header onOpenMenu={() => setMenuIsOpen(true)} />
+
+      <SideMenu 
+        menuIsOpen={menuIsOpen}
+        onCloseMenu={() => setMenuIsOpen(false)}
+      />
 
       <Content>
         <Banner>

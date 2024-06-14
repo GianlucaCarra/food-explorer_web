@@ -12,7 +12,7 @@ export function Footer() {
           <h3 className="roboto-500-bold">food explorer</h3>
         </Logo>
 
-        <span className="roboto-200-regular">
+        <span className="roboto-200-regular text">
           © 2024 - All rights reserved.
         </span>
       </Content>

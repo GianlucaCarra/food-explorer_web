@@ -9,7 +9,7 @@ export function ResultItem({ img, name, desc, id }) {
       <img src={img} alt={`image of ${name}`} />
 
       <div className="text">
-        <h1 className="poppins-300-bold">{name + ">"}</h1>
+        <h1 className="poppins-300-bold">{name + " >"}</h1>
 
         <span className="roboto-200-regular">{desc}</span>
       </div>

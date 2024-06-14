@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { DEVICE_BREAKPOINTS } from "../../style/deviceBreakpoints";
 
 export const Container = styled.div`
   display: flex;
@@ -44,5 +45,23 @@ export const Container = styled.div`
     cursor: pointer;
     filter: brightness(1.6);
     transition: .4s;
+  }
+
+  @media (max-width: ${DEVICE_BREAKPOINTS.SM}) {
+    > img {
+      height: 50px;
+      width: 50px;
+    }
+
+    padding: 10px;
+    gap: 15px;
+
+    h1 {
+      font-size: 20px;
+    }
+
+    span {
+      font-size: 14px;
+    }
   }
 `

@@ -18,6 +18,7 @@ export default createGlobalStyle`
 
   #root {
     height: 100%;
+    width: 100%;
   }
 
   .poppins-100-medium {

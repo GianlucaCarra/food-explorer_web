@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import CaretDown from "../../assets/CaretDown.svg";
+import { DEVICE_BREAKPOINTS } from "../../style/deviceBreakpoints";
 
 export const Container = styled.main`
-  width: 100%;
+  width: 100vw;
   height: 100vh;
 
   display: grid;
@@ -31,6 +32,17 @@ export const Content = styled.div`
 
     margin: 24px 0 32px 10px;
   }
+
+  @media (max-width: ${DEVICE_BREAKPOINTS.SM}) {
+    padding: 10px 32px 0;
+    margin-top: 32px;
+    width: 100vw;
+    max-width: 100vw;
+
+    > h1 {
+      margin: 24px 0;
+    }
+  }
 `;
 
 export const Back = styled.a`
@@ -50,6 +62,21 @@ export const Back = styled.a`
     filter: brightness(.8);
 
     transition: .4s;
+  }
+
+  @media (max-width: ${DEVICE_BREAKPOINTS.SM}) {
+    margin: 0;
+    gap: 8px;
+
+    img {
+      height: 16px;
+      width: 16px;
+    }
+
+    span {
+      font-size: 16px;
+      font-weight: 500;
+    }
   }
 `;
 
@@ -175,6 +202,8 @@ export const Section = styled.form`
     align-self: end;
     width: 400px;
 
+    white-space: normal;
+
     .delete-meal {
       display: flex;
       align-items: center;
@@ -269,6 +298,38 @@ export const Section = styled.form`
   #price {
     width: 250px;
   }
+
+  @media (max-width: ${DEVICE_BREAKPOINTS.SM}) {
+    width: 100%;
+    gap: 24px;
+
+    .line {
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .upload,
+    #name,
+    .ingredients,
+    #price,
+    .textarea-wrapper,
+    .selection,
+    .buttons {
+      max-width: 100%;
+      width: 100%;
+    }
+
+    .buttons {
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .buttons > button {
+      white-space: nowrap;
+      min-width: 130px;
+      flex: 0 0 auto;
+    }
+  }
 `;
 
 export const Select = styled.select`
@@ -278,8 +339,7 @@ export const Select = styled.select`
 
   padding: 16px;
   border-radius: 8px;
-  width: 100%;
-  
+
   height: 48px;
 
   appearance: none;

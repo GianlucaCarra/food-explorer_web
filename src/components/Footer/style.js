@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { DEVICE_BREAKPOINTS } from "../../style/deviceBreakpoints";
 
 export const Container = styled.footer`
   display: flex;
@@ -31,6 +32,12 @@ export const Content = styled.div`
   span {
     color: ${({ theme }) => theme.COLOR.LIGHT_200};
   }
+
+  @media (max-width: ${DEVICE_BREAKPOINTS.SM}) {
+    span {
+      font-size: 12px;
+    }
+  }
 `
 
 export const Logo = styled.div`
@@ -45,9 +52,20 @@ export const Logo = styled.div`
     width: 30px;
   }
 
-  h2 {
+  h3 {
     white-space: nowrap;
-    
-    color: ${({ theme }) => theme.COLOR.LIGHT_100};
+  }
+
+  @media (max-width: ${DEVICE_BREAKPOINTS.SM}) {
+    gap: 6px;
+
+    img {
+      height: 22px;
+      width: 22px;
+    }
+
+    h3 {
+      font-size: 15px;
+    }
   }
 `;

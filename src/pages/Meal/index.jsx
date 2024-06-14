@@ -13,11 +13,15 @@ import { Button } from "../../components/Button";
 import { Tag } from "../../components/Tag";
 import { ButtonQuant } from "../../components/ButtonQuant";
 import { Loader } from "../../components/Loader";
+import { SideMenu } from "../../components/SideMenu";
 
 import caretLeft from "../../assets/CaretLeft.svg";
+import receipt from "../../assets/Receipt.svg";
+
 export function Meal() {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
+  const [menuIsOpen, setMenuIsOpen] = useState(false);
   const navigate = useNavigate();
   const { role } = useAuth();
   const { id } = useParams();
@@ -45,7 +49,12 @@ export function Meal() {
   
   return(
     <Container>
-      <Header />
+      <Header onOpenMenu={() => setMenuIsOpen(true)} />
+
+      <SideMenu 
+        menuIsOpen={menuIsOpen}
+        onCloseMenu={() => setMenuIsOpen(false)}
+      />
 
       <Content>
         <Back onClick={() => navigate("/")} >
@@ -86,7 +95,7 @@ export function Meal() {
               <div className="quant-add">
                 <ButtonQuant />
                 
-                <Button text={`add ∙ $ ${data.price}`} />
+                <Button className="mobile" filepath={receipt} text={`add ∙ $ ${data.price}`} />
               </div>
             }
           </div>

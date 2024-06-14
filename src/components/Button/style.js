@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { DEVICE_BREAKPOINTS } from "../../style/deviceBreakpoints";
 
 export const Container = styled.button`
   display: flex;
@@ -44,6 +45,15 @@ export const Container = styled.button`
       cursor: not-allowed;
       filter: none;
       transition: none;
+    }
+  }
+
+  @media (max-width: ${DEVICE_BREAKPOINTS.SM}) {
+    padding: 12px 16px;
+
+    > img {
+      width: 20px;
+      height: 20px;
     }
   }
 `

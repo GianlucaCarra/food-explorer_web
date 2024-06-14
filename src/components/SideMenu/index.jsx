@@ -5,18 +5,15 @@ import debounce from "lodash.debounce";
 import { api } from "../../services/api";
 import { USER_ROLE } from "../../utils/roles";
 
-import { Container, Content, Logo, SearchBar, Results } from "./style"; 
+import { Container, Content, SearchBar, Results, Header, Actions } from "./style"; 
 import { useAuth } from "../../hooks/auth";
 import { ResultItem } from "../ResultItem";
-import { Button } from "../Button";
+import { Footer } from "../Footer";
 
-import logo from "../../assets/Logo.svg";
 import search from "../../assets/Search.svg";
-import receipt from "../../assets/Receipt.svg";
-import signOutL from "../../assets/SignOut.svg";
-import { Menu } from "../../assets/Menu.jsx";
+import { Close } from "../../assets/Close.jsx";
 
-export function Header({ onOpenMenu }) {
+export function SideMenu({ menuIsOpen, onCloseMenu }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const orders = 0;
@@ -54,36 +51,22 @@ export function Header({ onOpenMenu }) {
   };
   
   return(
-    <Container>
-      <Content>
-        <button className="menu-mobile" onClick={onOpenMenu}>
-          <Menu />
+    <Container data-menu-is-open={menuIsOpen}>
+      <Header>
+        <button onClick={onCloseMenu}>
+          <Close />
         </button>
 
-        {
-          role === USER_ROLE.ADMIN ?
-          <Logo onClick={() => navigate("/")}>
-            <img src={logo} alt="Logo of Food Explorer" />
+        <span>Menu</span>
+      </Header>
 
-            <div className="role">
-              <h2 className="roboto-500-bold">food explorer</h2>
-              <span className="roboto-100-regular">admin</span>
-            </div>
-          </Logo> :
-
-          <Logo onClick={() => navigate("/")}>
-            <img src={logo} alt="Logo of Food Explorer" />
-
-            <h2 className="roboto-500-bold">food explorer</h2>
-          </Logo>
-        }
-
+      <Content>
         <SearchBar>
           <div className="search">
             <img src={search} alt="Magnify glass" />
 
             <input 
-              id="search" 
+              id="search-mobile" 
               className={searchResults.length > 0 ? "withResults roboto-300-regular" : "roboto-300-regular"}
               type="text" 
               placeholder="Search for recipes or ingredients"
@@ -104,28 +87,29 @@ export function Header({ onOpenMenu }) {
           </Results>
         </SearchBar>
 
+        <Actions>
         {
           role === USER_ROLE.ADMIN ?
-          <div className="button-w">
-            <Button onClick={() => navigate("/new-meal")} text={"New meal"}/>
+          <div className="list">
+            <button onClick={() => navigate("/new-meal")}>
+              New Meal
+            </button>
+
+            <button onClick={signOut}>
+              Exit
+            </button>
           </div> :
 
-          <div className="button-w">
-            <Button 
-              onClick={() => navigate("/")} 
-              filepath={receipt} 
-              text={"Orders (" + orders + ")"}/>
+          <div className="list">
+            <button onClick={signOut}>
+              Exit
+            </button>
           </div>
         }
-
-        {
-          role === USER_ROLE.USER &&
-          <div className="button-mobile">
-            <img src={receipt} alt="" />
-          </div>
-        }
-        <img src={signOutL} alt="Exit" id="exit" onClick={signOut}/>
+        </Actions>
       </Content>
+
+      <Footer />
     </Container>
   );
 }

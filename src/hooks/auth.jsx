@@ -15,6 +15,7 @@ function AuthProvider({ children }) {
         { withCredentials: true }
       );
     } catch(error) {
+      console.log(error.response.data)
       throw error
     }
   }
@@ -48,6 +49,7 @@ function AuthProvider({ children }) {
       setData({ user });
       await getRole();
     } catch(error) {
+      console.log(error)
       
       throw error
     }
@@ -57,7 +59,7 @@ function AuthProvider({ children }) {
     localStorage.removeItem("@food-explorer:user");
 
     api.delete("/sessions/logout");
-
+ 
     setRole({});
     setData({});
   }

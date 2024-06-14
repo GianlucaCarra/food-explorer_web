@@ -16,7 +16,6 @@ export function SignIn() {
   const [isFormValid, setIsFormValid] = useState(false);
   const { signIn } = useAuth();
   const navigate = useNavigate();
-  const buttonRef = useRef(null);
 
   const validateForm = () => {
     setIsFormValid(
@@ -34,19 +33,6 @@ export function SignIn() {
 
     navigate("/login");
   }
-
-  useEffect(() => {
-    const handleKeyPress = (event) => {
-      if(event.key === 'Enter' && isFormValid) {
-      buttonRef.current.click();
-    }
-    };
-
-    window.addEventListener('keydown', handleKeyPress);
-    return () => {
-      window.removeEventListener('keydown', handleKeyPress);
-    };
-  }, [isFormValid]);
 
   useEffect(() => {
     validateForm();
@@ -95,7 +81,6 @@ export function SignIn() {
           type="submit" 
           onClick={handleCreate}
           text="Create acount" 
-          ref={buttonRef}
         />
 
         <ButtonText href="/login" className="poppins-100-medium">
