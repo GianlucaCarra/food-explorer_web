@@ -55,10 +55,10 @@ function AuthProvider({ children }) {
     }
   }
 
-  function signOut() {
+  async function signOut() {
     localStorage.removeItem("@food-explorer:user");
 
-    api.delete("/sessions/logout");
+    await api.delete("/sessions/logout");
  
     setRole({});
     setData({});
