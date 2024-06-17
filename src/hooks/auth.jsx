@@ -40,7 +40,7 @@ function AuthProvider({ children }) {
         { email, password },
         { withCredentials: true }
       );
-      const { user } = response.data;
+      const { user } = await response.data;
 
       delete user.role;
 
@@ -78,7 +78,7 @@ function AuthProvider({ children }) {
       formData.append('data', JSON.stringify(jsonData));
       formData.append('img', img);
   
-      const response = await api.post("/meals/create", formData, {
+      await api.post("/meals/create", formData, {
         withCredentials: true
       });
     } catch (error) {
