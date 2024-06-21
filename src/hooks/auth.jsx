@@ -15,8 +15,13 @@ function AuthProvider({ children }) {
         { withCredentials: true }
       );
     } catch(error) {
-      console.log(error.response.data)
-      throw error
+      if (error.response) {
+        alert(error.response.data.message);
+      } else {
+        alert(error.message);
+      }
+
+      throw error;
     }
   }
 
@@ -25,12 +30,13 @@ function AuthProvider({ children }) {
       const response = await api.get("/sessions/role");
       setRole(response.data.role);
     } catch (error) {
-      console.error("Failed to get role:", error);
       if (error.response) {
         alert(error.response.data.message);
       } else {
         alert(error.message);
       }
+
+      throw error;
     }
   }
 
@@ -49,19 +55,33 @@ function AuthProvider({ children }) {
       setData({ user });
       await getRole();
     } catch(error) {
-      console.log(error)
-      
-      throw error
+      if (error.response) {
+        alert(error.response.data.message);
+      } else {
+        alert(error.message);
+      }
+
+      throw error;
     }
   }
 
   async function signOut() {
-    localStorage.removeItem("@food-explorer:user");
+    try {
+      localStorage.removeItem("@food-explorer:user");
+  
+      await api.delete("/sessions/logout");
+   
+      setRole({});
+      setData({});
+    } catch(error) {
+      if(error.response) {
+        alert(error.response.data.message);
+      } else {
+        alert(error.message);
+      }
 
-    await api.delete("/sessions/logout");
- 
-    setRole({});
-    setData({});
+      throw error;
+    }
   }
 
   async function newMeal({ name, desc, price, type, ingredients, img }) {
@@ -82,6 +102,12 @@ function AuthProvider({ children }) {
         withCredentials: true
       });
     } catch (error) {
+      if (error.response) {
+        alert(error.response.data.message);
+      } else {
+        alert(error.message);
+      }
+
       throw error;
     }
   }
@@ -104,8 +130,13 @@ function AuthProvider({ children }) {
         withCredentials: true
       });
     } catch (error) {
-      alert(error)
-      throw error
+      if (error.response) {
+        alert(error.response.data.message);
+      } else {
+        alert(error.message);
+      }
+
+      throw error;
     }
   }
 
