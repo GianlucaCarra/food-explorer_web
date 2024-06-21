@@ -26,6 +26,7 @@ export function Home() {
         const index = await api.get("/meals/index", {
           withCredentials: true
         });
+        
         const filteredMeals = index.data.filter(item => item.type === "meal");
         const filteredDesserts = index.data.filter(item => item.type === "dessert");
         const filteredDrinks = index.data.filter(item => item.type === "drink");
@@ -34,7 +35,13 @@ export function Home() {
         setDesserts(filteredDesserts);
         setDrinks(filteredDrinks);
       } catch (error) {
-        alert(error)
+        if (error.response) {
+          alert(error.response.data.message);
+        } else {
+          alert(error.message);
+        }
+  
+        throw error;
       } finally {
         setLoading(false);
       }

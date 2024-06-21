@@ -93,7 +93,7 @@ function AuthProvider({ children }) {
         price: price,
         type: type,
         ingredients: ingredients
-      };
+      }
   
       formData.append('data', JSON.stringify(jsonData));
       formData.append('img', img);
@@ -121,7 +121,7 @@ function AuthProvider({ children }) {
         price: price || null,
         type: type || null,
         ingredients: ingredients || null
-      };
+      }
 
       formData.append('data', JSON.stringify(jsonData));
       formData.append('img', img);
