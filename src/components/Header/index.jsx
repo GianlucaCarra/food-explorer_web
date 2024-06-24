@@ -33,7 +33,14 @@ export function Header({ onOpenMenu }) {
           setSearchResults(response.data);
         } catch (error) {
           setSearchResults([]);
-          throw error
+          
+          if (error.response) {
+            alert(error.response.data.message);
+          } else {
+            alert(error.message);
+          }
+    
+          throw error;
         }
       } else {
         setSearchResults([]);

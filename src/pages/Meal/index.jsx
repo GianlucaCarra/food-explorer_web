@@ -27,11 +27,21 @@ export function Meal() {
   const { id } = useParams();
   
   const handleFetch = async () => {
-    const response = await api.get(`/meals/${id}`, { 
-      withCredentials: true 
-    });
+    try {
+      const response = await api.get(`/meals/${id}`, { 
+        withCredentials: true 
+      });
 
-    setData(response.data)
+      setData(response.data)
+    } catch(error) {
+      if (error.response) {
+        alert(error.response.data.message);
+      } else {
+        alert(error.message);
+      }
+
+      throw error;
+    }
   }
 
   useEffect(() => {

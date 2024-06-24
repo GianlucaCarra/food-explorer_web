@@ -10,10 +10,11 @@ function AuthProvider({ children }) {
 
   async function signIn({ name, email, password }) {
     try {
-      await api.post("/user", 
-        { name, email, password}, 
-        { withCredentials: true }
-      );
+      await api.post("/user", { 
+        name, 
+        email, 
+        password
+      });
     } catch(error) {
       if (error.response) {
         alert(error.response.data.message);
@@ -28,9 +29,9 @@ function AuthProvider({ children }) {
   async function getRole() {
     try {
       const response = await api.get("/sessions/role", { 
-          withCredentials: true 
-        }
-      );
+        withCredentials: true 
+      });
+
       setRole(response.data.role);
     } catch (error) {
       if (error.response) {
@@ -45,10 +46,11 @@ function AuthProvider({ children }) {
 
   async function signUp({ email, password }) {
     try {
-      const response = await api.post("/sessions", 
-        { email, password },
-        { withCredentials: true }
-      );
+      const response = await api.post("/sessions", { 
+        email, 
+        password 
+      });
+
       const { user } = await response.data;
 
       delete user.role;
@@ -72,10 +74,7 @@ function AuthProvider({ children }) {
     try {
       localStorage.removeItem("@food-explorer:user");
   
-      await api.delete("/sessions/logout", { 
-          withCredentials: true 
-        }
-      );
+      await api.delete("/sessions/logout");
    
       setRole({});
       setData({});

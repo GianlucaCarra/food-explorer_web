@@ -95,11 +95,15 @@ export function UpdateMeal() {
   }
   
   async function handleDelete() {
-    navigate("/");
-    
-    await api.delete(`/meals/delete/${id}`, {
-      withCredentials: true
-    });
+    try {
+      await api.delete(`/meals/delete/${id}`, {
+        withCredentials: true
+      });
+    } catch(error) {
+      alert(error.response.data.message);
+    } finally {
+      navigate(-1);
+    }
   }
   
   const handleImg = (e) => {

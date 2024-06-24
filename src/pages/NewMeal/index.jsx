@@ -64,8 +64,14 @@ export function NewMeal() {
 
   const handleCreate = async () => {
     setLoadingCreate(true);
-    newMeal({ name, desc, price, type, ingredients, img });
-    setLoadingCreate(false);
+    try {
+      await newMeal({ name, desc, price, type, ingredients, img });
+      setLoadingCreate(false);
+    } catch(error) {
+      alert(error.response.data.message);
+    } finally {
+      navigate(-1);
+    }
   };
 
   useEffect(() => {
