@@ -27,7 +27,10 @@ function AuthProvider({ children }) {
 
   async function getRole() {
     try {
-      const response = await api.get("/sessions/role");
+      const response = await api.get("/sessions/role", { 
+          withCredentials: true 
+        }
+      );
       setRole(response.data.role);
     } catch (error) {
       if (error.response) {
@@ -69,7 +72,10 @@ function AuthProvider({ children }) {
     try {
       localStorage.removeItem("@food-explorer:user");
   
-      await api.delete("/sessions/logout");
+      await api.delete("/sessions/logout", { 
+          withCredentials: true 
+        }
+      );
    
       setRole({});
       setData({});

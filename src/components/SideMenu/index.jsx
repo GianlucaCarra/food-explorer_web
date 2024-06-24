@@ -25,7 +25,7 @@ export function SideMenu({ menuIsOpen, onCloseMenu }) {
       if (term.length > 0) {
         try {
           const response = await api.get(`/meals/search?query=${term}`, {
-            withCredentials: true,
+            withCredentials: true
           });
           setSearchResults(response.data);
         } catch (error) {

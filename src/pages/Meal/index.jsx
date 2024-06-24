@@ -27,7 +27,9 @@ export function Meal() {
   const { id } = useParams();
   
   const handleFetch = async () => {
-    const response = await api.get(`/meals/${id}`);
+    const response = await api.get(`/meals/${id}`, { 
+      withCredentials: true 
+    });
 
     setData(response.data)
   }
