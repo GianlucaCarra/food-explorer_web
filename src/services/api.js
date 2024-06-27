@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export const api = axios.create({
-  baseURL: "https://api.vististudi.online"
+  baseURL: "https://food-explorer-loqy.onrender.com"
 });
