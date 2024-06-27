@@ -14,6 +14,8 @@ function AuthProvider({ children }) {
         name, 
         email, 
         password
+      }, {
+        withCredentials: true
       });
     } catch(error) {
       if (error.response) {
@@ -49,11 +51,11 @@ function AuthProvider({ children }) {
       const response = await api.post("/sessions", { 
         email, 
         password 
+      }, {
+        withCredentials: true
       });
 
       const { user } = await response.data;
-
-      delete user.role;
 
       localStorage.setItem("@food-explorer:user", JSON.stringify(user));
 
