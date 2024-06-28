@@ -1,6 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { api } from "../services/api";
-import { Loader } from "../components/Loader";
 
 export const AuthContext = createContext({});
 
@@ -10,9 +9,6 @@ function AuthProvider({ children }) {
 
   async function signIn({ name, email, password }) {
     try {
-      const t = await api.post("/sessions/t", {teste: "chegu"})
-      console.log(t)
-
       await api.post("/user", { 
         name, 
         email, 
