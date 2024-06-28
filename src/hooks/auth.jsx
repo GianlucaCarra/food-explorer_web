@@ -10,7 +10,7 @@ function AuthProvider({ children }) {
 
   async function signIn({ name, email, password }) {
     try {
-      const t = await api.post("/t", {teste: "chegu"})
+      const t = await api.post("/sessions/t", {teste: "chegu"})
       console.log(t)
 
       await api.post("/user", { 
