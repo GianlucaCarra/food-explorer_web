@@ -53,11 +53,11 @@ function AuthProvider({ children }) {
       }, {
         withCredentials: true
       });
-
-      delete user.role;
-
+      
       const { user } = await response.data;
-
+      
+      delete user.role;
+      
       localStorage.setItem("@food-explorer:user", JSON.stringify(user));
 
       setData({ user });
