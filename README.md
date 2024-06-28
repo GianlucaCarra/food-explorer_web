@@ -20,7 +20,7 @@ Food Explorer is a web application built with React, utilizing technologies such
 
 ## Usage
 
-You can access Food Explorer directly through its hosted URL [here](https://food-explorer-web-ten.vercel.app/).
+You can access Food Explorer directly through its hosted URL [here](https://app.vististudi.online/).
 
 ## License
 
